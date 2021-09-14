@@ -137,11 +137,12 @@ exports.factorialization = function (parsed, res) {
 
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
-      if (body.n >= 0) {
-        body.value = factorialize(body.n);
-        res.statusCode = 200;
+      let number = parseFloat(body.n);
+      if (number >= 0 && number % 1 != 0) {
+          body.value = factorialize(body.n);
+          res.statusCode = 200;
       } else {
-        body.error = "'n' paramater must be greater than or equal to 0.";
+        body.error = "'n' paramater must be an integer greater than or equal to 0.";
         res.statusCode = 422;
       }
     } else {
@@ -165,8 +166,14 @@ exports.prime = function (parsed, res) {
 
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
-      body.value = isPrime(body.n);
-      res.statusCode = 200;
+      let number = parseFloat(body.n);
+      if (number >= 0 && number % 1 != 0) {
+        body.value = isPrime(body.n);
+        res.statusCode = 200;
+      } else {
+        body.error = "'n' paramater must be an integer greater than or equal to 0.";
+        res.statusCode = 422;
+      }
     } else {
       createErrorMessage(body);
       res.statusCode = 422;
@@ -189,23 +196,22 @@ exports.nthPrime = function (parsed, res) {
 
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
-      let index = parseInt(body.n);
-      if (index > 0) {
-
+      let number = parseFloat(body.n);
+      if (number >= 0 && number % 1 != 0) {
         let primes = [];
         for (let i = 0; i <= limit; i++)
           if (isPrime(i))
             primes.push(i);
 
-        if (primes[index - 1]) {
-          body.value = primes[index - 1];
+        if (primes[number - 1]) {
+          body.value = primes[number - 1];
           res.statusCode = 200;
         } else {
           body.error = "'n' parameter must be lower.";
           res.statusCode = 422;
         }
       } else {
-        body.error = "'n' parameter must be greater than 0";
+        body.error = "'n' parameter must be an integer greater than 0";
         res.statusCode = 422;
       }
     } else {
