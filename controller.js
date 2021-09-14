@@ -10,7 +10,7 @@ exports.addition = function (parsed, res) {
   if (hasProperties(parsed, properties, body)) {
     // Vérifie si les paramètres sont valides
     if (!isEmptyOrNaN(body.x) && !isEmptyOrNaN(body.y)) {
-      body.value = parseInt(body.x) + parseInt(body.y);
+      body.value = parseFloat(body.x) + parseFloat(body.y);
       res.statusCode = 200;
     } else {
       // Paramètre(s) invalide(s), l'utilisateur doit modifier sa requête
@@ -35,7 +35,7 @@ exports.substraction = function (parsed, res) {
 
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.x) && !isEmptyOrNaN(body.y)) {
-      body.value = parseInt(body.x) - parseInt(body.y);
+      body.value = parseFloat(body.x) - parseFloat(body.y);
       res.statusCode = 200;
     } else {
       createErrorMessage(body);
@@ -58,7 +58,7 @@ exports.multiplication = function (parsed, res) {
 
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.x) && !isEmptyOrNaN(body.y)) {
-      body.value = parseInt(body.x) * parseInt(body.y);
+      body.value = parseFloat(body.x) * parseFloat(body.y);
       res.statusCode = 200;
     } else {
       createErrorMessage(body);
@@ -82,7 +82,7 @@ exports.division = function (parsed, res) {
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.x) && !isEmptyOrNaN(body.y)) {
       if (body.y != 0) {
-        body.value = parseInt(body.x) / parseInt(body.y);
+        body.value = parseFloat(body.x) / parseFloat(body.y);
         res.statusCode = 200;
       } else {
         body.error = "'y' paramater must be greater than 0.";
@@ -138,7 +138,7 @@ exports.factorialization = function (parsed, res) {
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
       let number = parseFloat(body.n);
-      if (number >= 0 && number % 1 != 0) {
+      if (number >= 0 && number % 1 == 0) {
           body.value = factorialize(body.n);
           res.statusCode = 200;
       } else {
@@ -167,8 +167,8 @@ exports.prime = function (parsed, res) {
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
       let number = parseFloat(body.n);
-      if (number >= 0 && number % 1 != 0) {
-        body.value = isPrime(body.n);
+      if (number >= 0 && number % 1 == 0) {
+        body.value = isPrime(number);
         res.statusCode = 200;
       } else {
         body.error = "'n' paramater must be an integer greater than or equal to 0.";
@@ -197,7 +197,7 @@ exports.nthPrime = function (parsed, res) {
   if (hasProperties(parsed, properties, body)) {
     if (!isEmptyOrNaN(body.n)) {
       let number = parseFloat(body.n);
-      if (number >= 0 && number % 1 != 0) {
+      if (number > 0 && number % 1 == 0) {
         let primes = [];
         for (let i = 0; i <= limit; i++)
           if (isPrime(i))
